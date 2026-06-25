@@ -1651,7 +1651,10 @@ searchInput.addEventListener('input', function() {
 async function loadAppDetail(id) {
   if (appDetailCache.has(id)) return appDetailCache.get(id);
   const url = DB_BASE + '/apps/' + encodeURIComponent(id) + '.json';
-  const res = await fetch(url, { cache: 'force-cache' });
+  // Use default cache (respects HTTP cache-control from raw.githubusercontent.com — 5 min).
+  // Do NOT use 'force-cache' or 'only-if-cached' — those would prevent picking up
+  // edits to apps/<id>.json for up to the browser's full cache lifetime.
+  const res = await fetch(url);
   if (!res.ok) throw new Error('HTTP ' + res.status);
   const data = await res.json();
   appDetailCache.set(id, data);
@@ -1815,6 +1818,9 @@ function renderDetail(app, indexEntry) {
         <span class="material-symbols-outlined">share</span>
         Compartilhar
       </button>
+      <button class="btn btn-text" id="modalReloadBtn" title="Recarregar detalhes">
+        <span class="material-symbols-outlined">refresh</span>
+      </button>
     </div>
 
     ${description ? `
@@ -1851,6 +1857,30 @@ function renderDetail(app, indexEntry) {
           showToast('Link copiado!');
         }
       } catch (_) { /* user cancelled */ }
+    });
+  }
+
+  // Wire reload button — bypasses in-memory + HTTP cache for this app
+  const reloadBtn = document.getElementById('modalReloadBtn');
+  if (reloadBtn) {
+    reloadBtn.addEventListener('click', async () => {
+      const icon = reloadBtn.querySelector('.material-symbols-outlined');
+      if (icon) icon.classList.add('spin');
+      appDetailCache.delete(app.id);
+      // Cache-bust the URL so the browser refetches
+      const url = DB_BASE + '/apps/' + encodeURIComponent(app.id) + '.json?_=' + Date.now();
+      try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const fresh = await res.json();
+        appDetailCache.set(app.id, fresh);
+        renderDetail(fresh, app);
+        showToast('Detalhes atualizados!');
+      } catch (err) {
+        showToast('Erro ao atualizar.');
+      } finally {
+        if (icon) icon.classList.remove('spin');
+      }
     });
   }
 }
