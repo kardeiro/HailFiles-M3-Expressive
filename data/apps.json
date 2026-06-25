@@ -1,0 +1,15 @@
+[
+  {
+    "id": "casa-preta",
+    "name": "Casa Preta",
+    "version": "1.9.16",
+    "description": "Casa Preta é um aplicativo Android que oferece uma experiência única de conteúdo multimídia. Descubra filmes, séries e muito mais.",
+    "icon": "assets/icons/casa-preta.png",
+    "file": "assets/apks/casa-preta.apk",
+    "size": "2.2 MB",
+    "category": "apps",
+    "updated": "2025-06-25",
+    "author": "Casa Preta",
+    "downloads": 0
+  }
+]
