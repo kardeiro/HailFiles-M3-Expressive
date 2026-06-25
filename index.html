@@ -930,133 +930,205 @@ body {
 }
 
 /* =============================================================
-   Detail Modal (M3 Expressive — full-screen dialog on mobile)
+   Detail Page (full-screen route — M3 Expressive)
+   Slides in from the right on top of the home, like a new page.
    ============================================================= */
-.modal-scrim {
+.detail-page {
   position: fixed;
   inset: 0;
-  background: color-mix(in srgb, var(--md-scrim) 50%, transparent);
-  z-index: 1600;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized);
-}
-.modal-scrim.open {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, calc(-50% + 24px));
-  width: min(640px, calc(100vw - 32px));
-  max-height: calc(100dvh - 32px);
-  background: var(--md-surface-container-high);
-  border-radius: var(--md-sys-shape-corner-extra-extra-large);
-  box-shadow: var(--md-sys-elevation-3);
-  z-index: 1700;
+  z-index: 1500;
+  background: var(--md-surface);
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  transform: translateX(100%);
   opacity: 0;
   pointer-events: none;
   transition:
-    opacity var(--md-sys-motion-duration-medium4) var(--md-sys-motion-easing-emphasized-decelerate),
-    transform var(--md-sys-motion-duration-medium4) var(--md-sys-motion-easing-emphasized-decelerate);
+    transform var(--md-sys-motion-duration-long2) var(--md-sys-motion-easing-emphasized-decelerate),
+    opacity var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized-decelerate);
+  overflow: hidden;
 }
-.modal.open {
+.detail-page.open {
+  transform: translateX(0);
   opacity: 1;
   pointer-events: auto;
-  transform: translate(-50%, -50%);
 }
 
-.modal-top-bar {
+.detail-top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
   display: flex;
   align-items: center;
   gap: var(--md-sys-spacing-xs);
-  padding: var(--md-sys-spacing-sm) var(--md-sys-spacing-sm) var(--md-sys-spacing-xs);
-  background: transparent;
+  padding: var(--md-sys-spacing-sm) var(--md-sys-spacing-sm);
+  background: color-mix(in srgb, var(--md-surface-container) 85%, transparent);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border-bottom: 1px solid var(--md-outline-variant);
   flex-shrink: 0;
 }
+.detail-top-bar-title {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--md-ref-typeface-brand);
+  font-size: var(--md-sys-typescale-title-large-size);
+  font-weight: 600;
+  line-height: var(--md-sys-typescale-title-large-line-height);
+  color: var(--md-on-surface);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
-.modal-scroll {
+.detail-scroll {
   overflow-y: auto;
-  padding: 0 var(--md-sys-spacing-md) var(--md-sys-spacing-md);
   flex: 1;
   -webkit-overflow-scrolling: touch;
 }
 
-.modal-hero {
+.detail-content {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: var(--md-sys-spacing-md) var(--md-sys-spacing-md) var(--md-sys-spacing-xxl);
+}
+
+.detail-hero {
   display: flex;
   gap: var(--md-sys-spacing-md);
   align-items: flex-start;
-  padding: var(--md-sys-spacing-xs) 0 var(--md-sys-spacing-md);
+  margin-bottom: var(--md-sys-spacing-md);
 }
-.modal-hero-icon {
-  width: 96px;
-  height: 96px;
+.detail-hero-icon {
+  width: 112px;
+  height: 112px;
   border-radius: var(--md-sys-shape-corner-extra-large);
   object-fit: cover;
   background: var(--md-surface-container-highest);
   border: 1px solid var(--md-outline-variant);
   flex-shrink: 0;
 }
-.modal-hero-info { flex: 1; min-width: 0; }
-.modal-hero-title {
+.detail-hero-info { flex: 1; min-width: 0; }
+.detail-hero-title {
   font-family: var(--md-ref-typeface-brand);
-  font-size: var(--md-sys-typescale-headline-medium-size);
+  font-size: var(--md-sys-typescale-headline-large-size);
   font-weight: 600;
-  line-height: var(--md-sys-typescale-headline-medium-line-height);
+  line-height: var(--md-sys-typescale-headline-large-line-height);
+  letter-spacing: -0.01em;
   color: var(--md-on-surface);
   margin-bottom: var(--md-sys-spacing-xxs);
   word-wrap: break-word;
 }
-.modal-hero-author {
-  font-size: var(--md-sys-typescale-body-medium-size);
+.detail-hero-author {
+  font-size: var(--md-sys-typescale-body-large-size);
   color: var(--md-on-surface-variant);
-  margin-bottom: var(--md-sys-spacing-xs);
+  margin-bottom: var(--md-sys-spacing-sm);
 }
-.modal-hero-badges {
+.detail-hero-badges {
   display: flex;
   flex-wrap: wrap;
   gap: var(--md-sys-spacing-xxs);
 }
 
-.modal-actions {
+/* Shizuku / requirement banner */
+.requirement-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--md-sys-spacing-sm);
+  padding: var(--md-sys-spacing-sm) var(--md-sys-spacing-md);
+  background: var(--md-tertiary-container);
+  color: var(--md-on-tertiary-container);
+  border-radius: var(--md-sys-shape-corner-large);
+  margin-bottom: var(--md-sys-spacing-md);
+}
+.requirement-banner .material-symbols-outlined {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+.requirement-banner-text {
+  flex: 1;
+  font-size: var(--md-sys-typescale-body-medium-size);
+  line-height: var(--md-sys-typescale-body-medium-line-height);
+}
+.requirement-banner-text strong { font-weight: 600; }
+
+.detail-actions {
   display: flex;
   gap: var(--md-sys-spacing-xs);
-  padding: var(--md-sys-spacing-xs) 0 var(--md-sys-spacing-md);
-  border-bottom: 1px solid var(--md-outline-variant);
   margin-bottom: var(--md-sys-spacing-md);
   flex-wrap: wrap;
 }
-.modal-actions .btn { flex: 1; min-width: 140px; }
+.detail-actions .btn-primary { flex: 1; min-width: 180px; }
+.detail-actions .btn-secondary { flex: 1; min-width: 140px; }
 
-.modal-section { margin-bottom: var(--md-sys-spacing-md); }
-.modal-section:last-child { margin-bottom: 0; }
-.modal-section-title {
+/* Mirrors section */
+.mirrors-section {
+  margin-bottom: var(--md-sys-spacing-md);
+}
+.mirrors-label {
+  font-size: var(--md-sys-typescale-label-medium-size);
+  font-weight: 500;
+  color: var(--md-on-surface-variant);
+  margin-bottom: var(--md-sys-spacing-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.mirrors-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--md-sys-spacing-xs);
+}
+.mirror-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--md-sys-spacing-xs);
+  height: 40px;
+  padding: 0 var(--md-sys-spacing-md);
+  border-radius: var(--md-sys-shape-corner-full);
+  border: 1px solid var(--md-outline-variant);
+  background: var(--md-surface-container-low);
+  color: var(--md-on-surface);
+  font-family: var(--md-ref-typeface-plain);
+  font-size: var(--md-sys-typescale-label-large-size);
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition:
+    background var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-emphasized),
+    border-color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-emphasized);
+}
+.mirror-btn:hover {
+  background: var(--md-surface-container);
+  border-color: var(--md-outline);
+}
+.mirror-btn:focus-visible { outline: 2px solid var(--md-primary); outline-offset: 2px; }
+.mirror-btn .material-symbols-outlined { font-size: 18px; color: var(--md-primary); }
+
+.detail-section { margin-bottom: var(--md-sys-spacing-lg); }
+.detail-section:last-child { margin-bottom: 0; }
+.detail-section-title {
   font-family: var(--md-ref-typeface-brand);
   font-size: var(--md-sys-typescale-title-medium-size);
   font-weight: 600;
   line-height: var(--md-sys-typescale-title-medium-line-height);
   color: var(--md-on-surface);
-  margin-bottom: var(--md-sys-spacing-xs);
+  margin-bottom: var(--md-sys-spacing-sm);
   display: flex;
   align-items: center;
   gap: var(--md-sys-spacing-xs);
 }
-.modal-section-title .material-symbols-outlined { font-size: 20px; color: var(--md-primary); }
-.modal-section-body {
-  font-size: var(--md-sys-typescale-body-medium-size);
-  line-height: var(--md-sys-typescale-body-medium-line-height);
+.detail-section-title .material-symbols-outlined { font-size: 20px; color: var(--md-primary); }
+.detail-section-body {
+  font-size: var(--md-sys-typescale-body-large-size);
+  line-height: 1.65rem;
   color: var(--md-on-surface-variant);
   white-space: pre-wrap;
   word-wrap: break-word;
 }
 
-/* Screenshots carousel */
+/* Screenshots gallery */
 .screenshots {
   display: flex;
   gap: var(--md-sys-spacing-sm);
@@ -1073,8 +1145,8 @@ body {
 }
 .screenshot {
   flex-shrink: 0;
-  width: 200px;
-  height: 356px;
+  width: 240px;
+  height: 426px;
   border-radius: var(--md-sys-shape-corner-extra-large);
   object-fit: cover;
   background: var(--md-surface-container-highest);
@@ -1085,10 +1157,10 @@ body {
 }
 .screenshot:hover { transform: scale(1.02); }
 
-/* Info rows */
+/* Info grid */
 .info-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: var(--md-sys-spacing-xs);
 }
 .info-card {
@@ -1180,42 +1252,42 @@ body {
   font-weight: 500;
 }
 
-/* Modal loading state */
-.modal-loading {
+/* Loading state */
+.detail-loading {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: var(--md-sys-spacing-xxl);
+  min-height: 60vh;
   gap: var(--md-sys-spacing-sm);
 }
-.modal-loading .material-symbols-outlined {
+.detail-loading .material-symbols-outlined {
   font-size: 48px;
   color: var(--md-primary);
   animation: spin 1.4s linear infinite;
 }
-.modal-loading p {
+.detail-loading p {
   color: var(--md-on-surface-variant);
   font-size: var(--md-sys-typescale-body-medium-size);
 }
 
-/* Modal error state */
-.modal-error {
+/* Error state */
+.detail-error {
   text-align: center;
   padding: var(--md-sys-spacing-xxl);
 }
-.modal-error .material-symbols-outlined {
+.detail-error .material-symbols-outlined {
   font-size: 48px;
   color: var(--md-error);
   margin-bottom: var(--md-sys-spacing-sm);
 }
-.modal-error h3 {
+.detail-error h3 {
   font-size: var(--md-sys-typescale-title-medium-size);
   font-weight: 600;
   color: var(--md-on-surface);
   margin-bottom: var(--md-sys-spacing-xxs);
 }
-.modal-error p {
+.detail-error p {
   color: var(--md-on-surface-variant);
   font-size: var(--md-sys-typescale-body-medium-size);
 }
@@ -1241,16 +1313,10 @@ body {
   .content { padding: 0 var(--md-sys-spacing-sm) var(--md-sys-spacing-md); }
   .stats-bar-inner { padding: 0 var(--md-sys-spacing-sm); gap: var(--md-sys-spacing-sm); }
   .chips { padding: var(--md-sys-spacing-sm); }
-  .modal {
-    width: 100vw;
-    height: 100dvh;
-    max-height: 100dvh;
-    border-radius: 0;
-    transform: translate(-50%, 100%);
-  }
-  .modal.open { transform: translate(-50%, 0); }
-  .modal-hero { flex-direction: column; align-items: center; text-align: center; }
-  .modal-hero-badges { justify-content: center; }
+  .detail-hero { flex-direction: column; align-items: center; text-align: center; }
+  .detail-hero-badges { justify-content: center; }
+  .detail-content { padding: var(--md-sys-spacing-sm) var(--md-sys-spacing-sm) var(--md-sys-spacing-xl); }
+  .screenshot { width: 200px; height: 356px; }
 }
 
 @media (max-width: 400px) {
@@ -1359,15 +1425,21 @@ body {
 
 <div class="toast" id="toast" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
-<!-- Detail Modal -->
-<div class="modal-scrim" id="modalScrim"></div>
-<aside class="modal" id="detailModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
-  <div class="modal-top-bar">
-    <button class="icon-button" id="modalCloseBtn" aria-label="Fechar detalhes">
-      <span class="material-symbols-outlined">close</span>
+<!-- Detail Page (full-screen route) -->
+<aside class="detail-page" id="detailPage" role="dialog" aria-modal="true" aria-labelledby="detailPageTitle" aria-hidden="true">
+  <header class="detail-top-bar">
+    <button class="icon-button" id="detailBackBtn" aria-label="Voltar">
+      <span class="material-symbols-outlined">arrow_back</span>
     </button>
-  </div>
-  <div class="modal-scroll" id="modalScroll">
+    <div class="detail-top-bar-title" id="detailPageTitle">Detalhes</div>
+    <button class="icon-button" id="detailShareBtn" aria-label="Compartilhar">
+      <span class="material-symbols-outlined">share</span>
+    </button>
+    <button class="icon-button" id="detailReloadBtn" aria-label="Recarregar detalhes">
+      <span class="material-symbols-outlined">refresh</span>
+    </button>
+  </header>
+  <div class="detail-scroll" id="detailScroll">
     <!-- content injected by JS -->
   </div>
 </aside>
@@ -1412,11 +1484,14 @@ const toast = document.getElementById('toast');
 const refreshBtn = document.getElementById('refreshBtn');
 const sentinel = document.getElementById('loadMoreSentinel');
 
-const modal = document.getElementById('detailModal');
-const modalScrim = document.getElementById('modalScrim');
-const modalCloseBtn = document.getElementById('modalCloseBtn');
-const modalScroll = document.getElementById('modalScroll');
+const detailPage = document.getElementById('detailPage');
+const detailBackBtn = document.getElementById('detailBackBtn');
+const detailShareBtn = document.getElementById('detailShareBtn');
+const detailReloadBtn = document.getElementById('detailReloadBtn');
+const detailScroll = document.getElementById('detailScroll');
+const detailPageTitle = document.getElementById('detailPageTitle');
 let lastFocusedElement = null;
+let currentDetailApp = null;  // currently-opened app object (for share/reload buttons)
 
 /* ---------- Theme ---------- */
 function getTheme() {
@@ -1647,7 +1722,7 @@ searchInput.addEventListener('input', function() {
   }, 200);
 });
 
-/* ---------- Detail modal ---------- */
+/* ---------- Detail page (full-screen route) ---------- */
 async function loadAppDetail(id) {
   if (appDetailCache.has(id)) return appDetailCache.get(id);
   const url = DB_BASE + '/apps/' + encodeURIComponent(id) + '.json';
@@ -1661,20 +1736,38 @@ async function loadAppDetail(id) {
   return data;
 }
 
+async function reloadAppDetail(id) {
+  appDetailCache.delete(id);
+  const url = DB_BASE + '/apps/' + encodeURIComponent(id) + '.json?_=' + Date.now();
+  const res = await fetch(url);
+  if (!res.ok) throw new Error('HTTP ' + res.status);
+  const data = await res.json();
+  appDetailCache.set(id, data);
+  return data;
+}
+
 function openDetail(id) {
   lastFocusedElement = document.activeElement;
-  modal.setAttribute('aria-hidden', 'false');
-  modalScrim.classList.add('open');
-  modal.classList.add('open');
+  detailPage.setAttribute('aria-hidden', 'false');
+  detailPage.classList.add('open');
   document.body.style.overflow = 'hidden';
 
+  // Push history state so the browser back button closes the detail page
+  if (history.state?.view !== 'detail' || history.state?.id !== id) {
+    history.pushState({ view: 'detail', id }, '', '#app/' + encodeURIComponent(id));
+  }
+
   // Loading state
-  modalScroll.innerHTML = `
-    <div class="modal-loading">
-      <span class="material-symbols-outlined">progress_activity</span>
-      <p>Carregando detalhes…</p>
+  detailScroll.innerHTML = `
+    <div class="detail-content">
+      <div class="detail-loading">
+        <span class="material-symbols-outlined">progress_activity</span>
+        <p>Carregando detalhes…</p>
+      </div>
     </div>
   `;
+  detailPageTitle.textContent = 'Carregando…';
+  detailScroll.scrollTop = 0;
 
   // Try the index first (we may have enough info to render the header instantly)
   const indexEntry = allApps.find(a => a.id === id) || {};
@@ -1688,27 +1781,95 @@ function openDetail(id) {
 }
 
 function renderDetailError(err) {
-  modalScroll.innerHTML = `
-    <div class="modal-error">
-      <span class="material-symbols-outlined">cloud_off</span>
-      <h3>Erro ao carregar</h3>
-      <p>Não foi possível carregar os detalhes deste app. Verifique sua conexão e tente novamente.</p>
+  detailScroll.innerHTML = `
+    <div class="detail-content">
+      <div class="detail-error">
+        <span class="material-symbols-outlined">cloud_off</span>
+        <h3>Erro ao carregar</h3>
+        <p>Não foi possível carregar os detalhes deste app. Verifique sua conexão e tente novamente.</p>
+      </div>
     </div>
   `;
+  detailPageTitle.textContent = 'Erro';
 }
 
 function renderDetail(app, indexEntry) {
+  currentDetailApp = app;
   const iconUrl = resolveDbUrl(app.icon || indexEntry.icon);
   const screenshots = (app.screenshots || []).map(resolveDbUrl);
   const description = app.longDescription || app.description || '';
   const changelog = app.changelog || [];
   const permissions = app.permissions || [];
   const tags = app.tags || [];
+  const mirrors = Array.isArray(app.mirrors) ? app.mirrors : [];
+  const requiresShizuku = app.requiresShizuku === true;
+  const website = app.website || '';
+  const sourceCode = app.sourceCode || '';
+
+  // Update top bar title
+  detailPageTitle.textContent = app.name || indexEntry.name || 'Detalhes';
+
+  const requirementBannerHtml = requiresShizuku
+    ? `
+      <div class="requirement-banner" role="note">
+        <span class="material-symbols-outlined">verified_user</span>
+        <div class="requirement-banner-text">
+          <strong>Requer Shizuku.</strong> Este app precisa do Shizuku ativo no dispositivo para realizar operações avançadas sem root. Instale e ative o Shizuku antes de usar.
+        </div>
+      </div>`
+    : '';
+
+  // Primary download: prefer app.file, fallback to first mirror
+  const primaryUrl = app.file || (mirrors.length ? mirrors[0].url : '');
+  const primaryLabel = app.file ? 'Baixar APK' : (mirrors.length ? 'Baixar (' + mirrors[0].label + ')' : '');
+  const downloadBtnHtml = primaryUrl
+    ? `<a class="btn btn-filled btn-primary" href="${escapeHtml(primaryUrl)}" target="_blank" rel="noopener noreferrer">
+        <span class="material-symbols-outlined">download</span>
+        ${escapeHtml(primaryLabel)}
+      </a>`
+    : `<span class="btn btn-tonal btn-primary" style="opacity:0.6;cursor:not-allowed">
+        <span class="material-symbols-outlined">link_off</span>
+        Indisponível
+      </span>`;
+
+  // Secondary actions: website / source code (whichever exists)
+  let secondaryActionsHtml = '';
+  if (website) {
+    secondaryActionsHtml += `
+      <a class="btn btn-outline btn-secondary" href="${escapeHtml(website)}" target="_blank" rel="noopener noreferrer">
+        <span class="material-symbols-outlined">language</span>
+        Site
+      </a>`;
+  }
+  if (sourceCode) {
+    secondaryActionsHtml += `
+      <a class="btn btn-outline btn-secondary" href="${escapeHtml(sourceCode)}" target="_blank" rel="noopener noreferrer">
+        <span class="material-symbols-outlined">code</span>
+        Código
+      </a>`;
+  }
+
+  // Mirrors section — skip the first mirror if it's already the primary
+  const mirrorsToShow = app.file ? mirrors : mirrors.slice(1);
+  const mirrorsHtml = mirrorsToShow.length
+    ? `
+      <div class="mirrors-section">
+        <div class="mirrors-label">Espelhos de download</div>
+        <div class="mirrors-list">
+          ${mirrorsToShow.map(m => `
+            <a class="mirror-btn" href="${escapeHtml(m.url)}" target="_blank" rel="noopener noreferrer">
+              <span class="material-symbols-outlined">cloud_download</span>
+              ${escapeHtml(m.label || m.id || 'Mirror')}
+            </a>
+          `).join('')}
+        </div>
+      </div>`
+    : '';
 
   const screenshotsHtml = screenshots.length
     ? `
-      <div class="modal-section">
-        <h3 class="modal-section-title">
+      <div class="detail-section">
+        <h3 class="detail-section-title">
           <span class="material-symbols-outlined">photo_library</span>
           Screenshots
         </h3>
@@ -1721,8 +1882,8 @@ function renderDetail(app, indexEntry) {
     : '';
 
   const infoCardsHtml = `
-    <div class="modal-section">
-      <h3 class="modal-section-title">
+    <div class="detail-section">
+      <h3 class="detail-section-title">
         <span class="material-symbols-outlined">info</span>
         Informações
       </h3>
@@ -1733,14 +1894,16 @@ function renderDetail(app, indexEntry) {
         ${app.minAndroid ? `<div class="info-card"><div class="info-card-label">Requer</div><div class="info-card-value">${escapeHtml(app.minAndroid)}</div></div>` : ''}
         ${app.language ? `<div class="info-card"><div class="info-card-label">Idioma</div><div class="info-card-value">${escapeHtml(app.language)}</div></div>` : ''}
         ${app.author ? `<div class="info-card"><div class="info-card-label">Autor</div><div class="info-card-value">${escapeHtml(app.author)}</div></div>` : ''}
+        ${app.category ? `<div class="info-card"><div class="info-card-label">Categoria</div><div class="info-card-value">${escapeHtml(app.category)}</div></div>` : ''}
+        ${typeof app.downloads === 'number' ? `<div class="info-card"><div class="info-card-label">Downloads</div><div class="info-card-value">${app.downloads.toLocaleString('pt-BR')}</div></div>` : ''}
       </div>
     </div>
   `;
 
   const permissionsHtml = permissions.length
     ? `
-      <div class="modal-section">
-        <h3 class="modal-section-title">
+      <div class="detail-section">
+        <h3 class="detail-section-title">
           <span class="material-symbols-outlined">lock</span>
           Permissões
         </h3>
@@ -1757,8 +1920,8 @@ function renderDetail(app, indexEntry) {
 
   const changelogHtml = changelog.length
     ? `
-      <div class="modal-section">
-        <h3 class="modal-section-title">
+      <div class="detail-section">
+        <h3 class="detail-section-title">
           <span class="material-symbols-outlined">history</span>
           Novidades
         </h3>
@@ -1776,8 +1939,8 @@ function renderDetail(app, indexEntry) {
 
   const tagsHtml = tags.length
     ? `
-      <div class="modal-section">
-        <h3 class="modal-section-title">
+      <div class="detail-section">
+        <h3 class="detail-section-title">
           <span class="material-symbols-outlined">label</span>
           Tags
         </h3>
@@ -1787,119 +1950,121 @@ function renderDetail(app, indexEntry) {
       </div>`
     : '';
 
-  const downloadBtnHtml = app.file
-    ? `<a class="btn btn-filled" href="${escapeHtml(app.file)}" download="${escapeHtml(app.name)} v${escapeHtml(app.version || '')}.apk">
-        <span class="material-symbols-outlined">download</span>
-        Baixar APK
-      </a>`
-    : `<span class="btn btn-tonal" style="opacity:0.6;cursor:not-allowed">
-        <span class="material-symbols-outlined">link_off</span>
-        Indisponível
-      </span>`;
-
-  modalScroll.innerHTML = `
-    <div class="modal-hero">
-      <img class="modal-hero-icon" src="${escapeHtml(iconUrl)}" alt="" loading="lazy" onerror="this.style.opacity=0.2">
-      <div class="modal-hero-info">
-        <h2 class="modal-hero-title" id="modalTitle">${escapeHtml(app.name || indexEntry.name || '')}</h2>
-        ${app.author ? `<div class="modal-hero-author">por ${escapeHtml(app.author)}</div>` : ''}
-        <div class="modal-hero-badges">
-          ${app.version ? `<span class="meta-badge primary">v${escapeHtml(app.version)}</span>` : ''}
-          ${app.size ? `<span class="meta-badge">${escapeHtml(app.size)}</span>` : ''}
-          ${app.category ? `<span class="meta-badge">${escapeHtml(app.category)}</span>` : ''}
-          ${app.updated ? `<span class="meta-badge">${escapeHtml(formatDate(app.updated))}</span>` : ''}
+  detailScroll.innerHTML = `
+    <div class="detail-content">
+      <div class="detail-hero">
+        <img class="detail-hero-icon" src="${escapeHtml(iconUrl)}" alt="" loading="lazy" onerror="this.style.opacity=0.2">
+        <div class="detail-hero-info">
+          <h2 class="detail-hero-title" id="detailTitle">${escapeHtml(app.name || indexEntry.name || '')}</h2>
+          ${app.author ? `<div class="detail-hero-author">por ${escapeHtml(app.author)}</div>` : ''}
+          <div class="detail-hero-badges">
+            ${app.version ? `<span class="meta-badge primary">v${escapeHtml(app.version)}</span>` : ''}
+            ${app.size ? `<span class="meta-badge">${escapeHtml(app.size)}</span>` : ''}
+            ${app.category ? `<span class="meta-badge">${escapeHtml(app.category)}</span>` : ''}
+            ${app.updated ? `<span class="meta-badge">${escapeHtml(formatDate(app.updated))}</span>` : ''}
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="modal-actions">
-      ${downloadBtnHtml}
-      <button class="btn btn-outline" id="modalShareBtn">
-        <span class="material-symbols-outlined">share</span>
-        Compartilhar
-      </button>
-      <button class="btn btn-text" id="modalReloadBtn" title="Recarregar detalhes">
-        <span class="material-symbols-outlined">refresh</span>
-      </button>
-    </div>
+      ${requirementBannerHtml}
 
-    ${description ? `
-      <div class="modal-section">
-        <h3 class="modal-section-title">
-          <span class="material-symbols-outlined">description</span>
-          Sobre
-        </h3>
-        <div class="modal-section-body">${escapeHtml(description)}</div>
+      <div class="detail-actions">
+        ${downloadBtnHtml}
+        ${secondaryActionsHtml}
       </div>
-    ` : ''}
 
-    ${screenshotsHtml}
-    ${infoCardsHtml}
-    ${permissionsHtml}
-    ${changelogHtml}
-    ${tagsHtml}
+      ${mirrorsHtml}
+
+      ${description ? `
+        <div class="detail-section">
+          <h3 class="detail-section-title">
+            <span class="material-symbols-outlined">description</span>
+            Sobre
+          </h3>
+          <div class="detail-section-body">${escapeHtml(description)}</div>
+        </div>
+      ` : ''}
+
+      ${screenshotsHtml}
+      ${infoCardsHtml}
+      ${permissionsHtml}
+      ${changelogHtml}
+      ${tagsHtml}
+    </div>
   `;
 
-  // Wire share button
-  const shareBtn = document.getElementById('modalShareBtn');
-  if (shareBtn) {
-    shareBtn.addEventListener('click', async () => {
-      const shareData = {
-        title: app.name || 'HailFiles',
-        text: app.description || '',
-        url: app.file || window.location.href
-      };
-      try {
-        if (navigator.share) {
-          await navigator.share(shareData);
-        } else {
-          await navigator.clipboard.writeText(shareData.url);
-          showToast('Link copiado!');
-        }
-      } catch (_) { /* user cancelled */ }
-    });
-  }
-
-  // Wire reload button — bypasses in-memory + HTTP cache for this app
-  const reloadBtn = document.getElementById('modalReloadBtn');
-  if (reloadBtn) {
-    reloadBtn.addEventListener('click', async () => {
-      const icon = reloadBtn.querySelector('.material-symbols-outlined');
-      if (icon) icon.classList.add('spin');
-      appDetailCache.delete(app.id);
-      // Cache-bust the URL so the browser refetches
-      const url = DB_BASE + '/apps/' + encodeURIComponent(app.id) + '.json?_=' + Date.now();
-      try {
-        const res = await fetch(url);
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        const fresh = await res.json();
-        appDetailCache.set(app.id, fresh);
-        renderDetail(fresh, app);
-        showToast('Detalhes atualizados!');
-      } catch (err) {
-        showToast('Erro ao atualizar.');
-      } finally {
-        if (icon) icon.classList.remove('spin');
-      }
-    });
-  }
+  detailScroll.scrollTop = 0;
 }
 
 function closeDetail() {
-  modal.setAttribute('aria-hidden', 'true');
-  modalScrim.classList.remove('open');
-  modal.classList.remove('open');
+  detailPage.setAttribute('aria-hidden', 'true');
+  detailPage.classList.remove('open');
   document.body.style.overflow = '';
-  modalScroll.innerHTML = '';
+  detailScroll.innerHTML = '';
+  currentDetailApp = null;
+  detailPageTitle.textContent = 'Detalhes';
+  // If we got here via history state, go back so the URL fragment clears
+  if (history.state?.view === 'detail') {
+    history.back();
+  }
   if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
     lastFocusedElement.focus();
   }
 }
 
-modalCloseBtn.addEventListener('click', closeDetail);
-modalScrim.addEventListener('click', closeDetail);
+detailBackBtn.addEventListener('click', closeDetail);
+
+// Top-bar share button — uses currentDetailApp
+detailShareBtn.addEventListener('click', async () => {
+  if (!currentDetailApp) return;
+  const app = currentDetailApp;
+  const shareData = {
+    title: app.name || 'HailFiles',
+    text: app.description || '',
+    url: app.file || (Array.isArray(app.mirrors) && app.mirrors[0]?.url) || window.location.href
+  };
+  try {
+    if (navigator.share) {
+      await navigator.share(shareData);
+    } else {
+      await navigator.clipboard.writeText(shareData.url);
+      showToast('Link copiado!');
+    }
+  } catch (_) { /* user cancelled */ }
+});
+
+// Top-bar reload button — bypasses in-memory + HTTP cache for this app
+detailReloadBtn.addEventListener('click', async () => {
+  if (!currentDetailApp) return;
+  const icon = detailReloadBtn.querySelector('.material-symbols-outlined');
+  if (icon) icon.classList.add('spin');
+  try {
+    const fresh = await reloadAppDetail(currentDetailApp.id);
+    const indexEntry = allApps.find(a => a.id === currentDetailApp.id) || {};
+    renderDetail(fresh, indexEntry);
+    showToast('Detalhes atualizados!');
+  } catch (err) {
+    showToast('Erro ao atualizar.');
+  } finally {
+    if (icon) icon.classList.remove('spin');
+  }
+});
+
+// Browser back button closes the detail page
+window.addEventListener('popstate', (e) => {
+  if (detailPage.classList.contains('open') && (!e.state || e.state.view !== 'detail')) {
+    detailPage.setAttribute('aria-hidden', 'true');
+    detailPage.classList.remove('open');
+    document.body.style.overflow = '';
+    detailScroll.innerHTML = '';
+    currentDetailApp = null;
+    detailPageTitle.textContent = 'Detalhes';
+  }
+});
+
+// Escape key closes the detail page
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && modal.classList.contains('open')) {
+  if (e.key === 'Escape' && detailPage.classList.contains('open')) {
     closeDetail();
   }
 });
