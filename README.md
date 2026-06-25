@@ -57,7 +57,22 @@ The top app bar has a refresh button (↻) that forces a re-fetch of `index.json
   - Changelog timeline
   - Tags
 - **Snackbar / Toast** for feedback (inverse-surface, extra-small corners per M3 spec)
-- **Escape / scrim click** to close modal; focus restored to last element
+- **Detail page (full-screen route)** — slides in from the right as a separate page, not a modal overlay
+  - Top app bar with back arrow + share + reload buttons
+  - Hero with 112px icon + headline-large title + author + badges
+  - **Shizuku requirement banner** when `requiresShizuku: true`
+  - Primary download button (filled) + secondary actions (website / source code)
+  - **Multiple download mirrors** rendered as outline chips
+  - Long description with body-large text and 1.65rem line-height
+  - Horizontal screenshots carousel (240×426 desktop, 200×356 mobile) with scroll-snap
+  - Info grid (version, size, updated, requires, language, author, category, downloads)
+  - Permissions as M3 pills
+  - Changelog timeline with version + date + bulleted changes
+  - Tags as tertiary-container chips
+  - Browser back button closes the page (`history.pushState` with `#app/<id>` fragment)
+  - Escape key also closes; body scroll locked while open
+  - Reload button bypasses both in-memory cache and HTTP cache (`?_=timestamp`)
+  - Focus restored to trigger element on close
 
 ## Run locally
 
