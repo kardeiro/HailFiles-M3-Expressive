@@ -1,16 +1,13 @@
-# HailFiles .gitignore
+node_modules/
+dist/
 *.log
 .DS_Store
 Thumbs.db
-
-# Data lives in kardeiro/HailFiles-Database — never commit data here
 data/
 assets/
 apps/
 icons/
 screenshots/
-
-# Never commit APKs or large binaries
 *.apk
 *.xapk
 *.apks
